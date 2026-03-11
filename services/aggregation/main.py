@@ -33,7 +33,7 @@ def create_demo_raw():
         }
     )
     demo.to_csv(RAW_FILE, index=False)
-    print(f"ℹ️ Keine Raw-Datei gefunden – Demo-Daten erzeugt: {RAW_FILE}")
+    print(f" Keine Raw-Datei gefunden – Demo-Daten erzeugt: {RAW_FILE}")
 
 
 def main():
@@ -86,12 +86,12 @@ def main():
             f"postgresql+psycopg2://{PG_USER}:{PG_PW}@{PG_HOST}:5432/{PG_DB}"
         )
         df_airline.to_sql("features_airline_quarter", engine, if_exists="replace", index=False)
-        print("✅ Postgres Tabelle geschrieben: features_airline_quarter")
+        print(" Postgres Tabelle geschrieben: features_airline_quarter")
     except Exception as e:
-        print("ℹ️ Postgres nicht erreichbar/konfiguriert – DB-Write übersprungen.")
+        print(" Postgres nicht erreichbar/konfiguriert – DB-Write übersprungen.")
         print(f"   Details: {e}")
 
-    print("✅ Aggregation fertig")
+    print(" Aggregation fertig")
     print(f"→ Processed: {out_parquet}")
 
 
