@@ -34,6 +34,19 @@ services:
     depends_on:
       - postgres
 
+  aggregation:
+    build: ./services/aggregation
+    environment:
+      DATA_DIR: /data
+      POSTGRES_HOST: postgres
+      POSTGRES_DB: ${POSTGRES_DB:-portfolio}
+      POSTGRES_USER: ${POSTGRES_USER:-portfolio}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-portfolio}
+    volumes:
+      - data:/data
+    depends_on:
+      - postgres
+
 volumes:
   pgdata:
   data:
