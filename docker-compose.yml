@@ -9,6 +9,11 @@ services:
       - "5432:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-portfolio} -d ${POSTGRES_DB:-portfolio}"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
 
   ingestion:
     build: ./services/ingestion
@@ -19,7 +24,8 @@ services:
     volumes:
       - data:/data
     depends_on:
-      - postgres
+      postgres:
+        condition: service_healthy
 
   processing:
     build: ./services/processing
@@ -32,7 +38,8 @@ services:
     volumes:
       - data:/data
     depends_on:
-      - postgres
+      postgres:
+        condition: service_healthy
 
   aggregation:
     build: ./services/aggregation
@@ -45,7 +52,8 @@ services:
     volumes:
       - data:/data
     depends_on:
-      - postgres
+      postgres:
+        condition: service_healthy
 
 volumes:
   pgdata:
